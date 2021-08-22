@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  title: Take My Order Review API
+  description: REST API to to take the  consumer orders online and delivery
+  version: 1.0.0     
+servers:    
+- url: https://localhost:8080/TakeMyOrder.com/
+  description: developmnet
+paths:
+  /consumerdata:
+    post:
+      tags:
+      - Consumer Registration Service
+      summary: accept a user registration details      
+      operationId: consumerdata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsumerData'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsumerDataResponse'
+        '400':
+          description: Backend processing error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Backend processing error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ConsumerBulkData:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConsumerData'
+    ConsumerData:
+      type: object1
+      properties:
+        id:
+        type: integerq1
+        firstname:
+          type: string
+        lastname:
+          type: string
+        age:
+          type: string 
+        sex:
+          type: string
+        dateofbirth:    
+          type: integer
+          format: date
+        address:
+          type: string
+        zipcode:
+          type: integer
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+    ConsumerDataResponse:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64

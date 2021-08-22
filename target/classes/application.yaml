@@ -1,0 +1,55 @@
+##Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+#spring:
+#  datasource:
+#    driver-class-name: org.postgressql.Driver
+#    url:jdbc: postgresql://localhost:5432/postgres
+#    username: admin
+#    password: admin
+# #The SQL dialect makes Hibernate generates better SQL for the chosen database
+#jpa:
+# properties:
+#   hibernate:
+#     dialect: org.hibernate.dialect.PostgresSQLDialect
+#     jdbc:
+#       lob:
+#         non_contextual_creation: true
+#Hibernate ddl auto (create, create-drop, validate, update)
+#     ddl-auto: update
+#Toggle to show SQL queries in log
+#   show-sql: true
+
+#Retry on exception
+
+#qcu:
+#dataservice:
+#retryAssinTaskCount:2
+#managerTAskStatuses:2, 4
+#initialreviewactioncds: 1.2
+#manageractioncds: 3,4,5
+#cache:
+#interval: 1000
+#ping:
+#security:
+#basic:
+#enabled: true
+#management:
+#security:
+#enabled: true
+#qcu:
+#dataservices:
+#oauth:
+#isResourceServer: true
+#ropc:
+#env:
+#name: devl
+#public:
+#key:
+#env: devl-publickey
+#url:
+#corn:
+#schedule:
+#minute: 00
+#hour: 23
+#monthday: "*"
+#month: "*"
+#weekday: "*"
