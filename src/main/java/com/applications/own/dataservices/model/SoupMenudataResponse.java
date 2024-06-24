@@ -1,32 +1,24 @@
 package com.applications.own.dataservices.model;
 
 import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * ConsumerDataResponse
- */
 
-public class  ConsumerDataResponse   {
-  @JsonProperty("userId")
-  private Integer userId = null;
+public class SoupMenudataResponse   {
+  @JsonProperty("id")
+  private Integer soupId = null;
 
-  public ConsumerDataResponse userId(Integer userId) {
-    this.userId = userId;
+  public SoupMenudataResponse userId(Integer soupId) {
+    this.soupId = soupId;
     return this;
   }
 
-  /**
-   * Get userId
-   * @return userId
-   **/
-     public Integer getUserId() {
-    return userId;
+    public Integer getsoupId() {
+    return soupId;
   }
 
-  public void setUserId(Integer userId) {
-    this.userId = userId;
+  public void setSoupId(Integer soupId) {
+    this.soupId = soupId;
   }
 
 
@@ -38,21 +30,21 @@ public class  ConsumerDataResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ConsumerDataResponse consumerDataResponse = (ConsumerDataResponse) o;
-    return Objects.equals(this.userId, consumerDataResponse.userId);
+    SoupMenudataResponse soupMenudataResponse = (SoupMenudataResponse) o;
+    return Objects.equals(this.soupId, soupMenudataResponse.soupId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId);
+    return Objects.hash(soupId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ConsumerDataResponse {\n");
+    sb.append("class SoupMenudataResponse {\n");
     
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(soupId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

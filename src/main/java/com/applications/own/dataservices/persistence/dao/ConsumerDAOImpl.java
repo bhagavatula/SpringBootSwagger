@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.applications.own.dataservices.exception.TKORDSException;
+import com.applications.own.dataservices.model.ConsumerBulkData;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,7 @@ import com.applications.own.dataservices.model.ConsumerDataResponse;
 import com.applications.own.dataservices.persistence.entity.TkmyordUser;
 import com.applications.own.dataservices.persistence.repository.ConsumerDataRepository;
 
+@Log4j2
 @Component
 public class ConsumerDAOImpl implements ConsumerDAO {
 
@@ -33,7 +37,10 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 			// Now Map the Entity
 			TkmyordUser consumerRegister = new TkmyordUser();
 			// Get the Consumer ID as it new Id for every insert
-			Integer consumerID = consumerDataRepository.getConsumerId();
+//			Integer consumerID = consumerDataRepository.getConsumerId();
+			if((consumerData.getFirstname() == null) || ((consumerData.getFirstname().trim().equals("")))){
+				throw new TKORDSException  ("Error while saving the User Information: User Name not Available in consumerData");
+			}
 			consumerRegister.setAge(consumerData.getAge());
 			consumerRegister.setDateofbirth(new java.sql.Date(consumerData.getDateofbirth().getTime()));
 			consumerRegister.setDeliveryAddress(consumerData.getAddress());
@@ -41,11 +48,10 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 			consumerRegister.setLastName(consumerData.getLastname());
 			consumerRegister.setSex(consumerData.getSex());
 			consumerRegister.setZipcode(consumerData.getZipcode());
-			consumerRegister.setId(consumerID);
+//			consumerRegister.setId(consumerID);
 			// Save the consumer Data through repository
-
-			consumerDataRepository.save(consumerRegister);
-			return consumerRegister.getId();
+//			consumerDataRepository.save(consumerRegister);
+			return consumerDataRepository.save(consumerRegister).getId();
 		} catch (Exception e) {
 			String errorMessage = "Exception while saving the consumer Data";
 			throw new Exception("Error while saving ConsumerData", e);
@@ -54,30 +60,58 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 	}
 
 	@Override
+	@Transactional
+	public Integer SaveConsumerBulkDetails(ConsumerBulkData consumerBulkData) throws Exception {
+		TkmyordUser consumerRegister = new TkmyordUser();
+		String consumerIDs= "";
+		List<TkmyordUser> userList = new ArrayList<>();
+		try{
+		for (int itr= 0; itr<consumerBulkData.size(); itr++){
+//			Integer consumerID = consumerDataRepository.getConsumerId();
+//			consumerIDs+=consumerID;
+			log.info(itr);
+			consumerRegister.setAge(consumerBulkData.get(itr).getAge());
+			consumerRegister.setDateofbirth(new java.sql.Date(consumerBulkData.get(itr).getDateofbirth().getTime()));
+			consumerRegister.setDeliveryAddress(consumerBulkData.get(itr).getAddress());
+			consumerRegister.setFirstName(consumerBulkData.get(itr).getFirstname());
+			consumerRegister.setLastName(consumerBulkData.get(itr).getLastname());
+			consumerRegister.setSex(consumerBulkData.get(itr).getSex());
+			consumerRegister.setZipcode(consumerBulkData.get(itr).getZipcode());
+			userList.add(consumerRegister);
+		}
+			consumerDataRepository.saveAll(userList);
+		return Integer.valueOf(200);
+	} catch (Exception e) {
+		String errorMessage = "Exception while saving the consumer Bulk Data";
+		throw new Exception("Error while saving ConsumerBulkData", e);
+	}
+	}
+
+	@Override
 	public Integer UpdatedConsumerDetails(ConsumerData consumerData) throws Exception {
 		try {
 			 int id = consumerData.getId();
 			TkmyordUser consumerRegister = consumerDataRepository.findById(id);
-		 
-			if (!(consumerData.getAge() == null)) {
+
+			if (consumerData.getAge()!= null) {
 				consumerRegister.setAge(consumerData.getAge());
 			}
-			if (!(consumerData.getDateofbirth() == null)) {
+			if (consumerData.getDateofbirth() != null) {
 				consumerRegister.setDateofbirth(new java.sql.Date(consumerData.getDateofbirth().getTime()));
 			}
-			if (!(consumerData.getAddress() == null)) {
+			if (consumerData.getAddress() != null) {
 				consumerRegister.setDeliveryAddress(consumerData.getAddress());
 			}
-			if (!(consumerData.getFirstname() == null)) {
+			if (consumerData.getFirstname() != null) {
 				consumerRegister.setFirstName(consumerData.getFirstname());
 			}
-			if (!(consumerData.getLastname() == null)) {
+			if (consumerData.getLastname() != null) {
 				consumerRegister.setLastName(consumerData.getLastname());
 			}
-			if (!(consumerData.getSex() == null)) {
+			if (consumerData.getSex() != null) {
 				consumerRegister.setSex(consumerData.getSex());
 			}
-			if (!(consumerData.getAge() == null)) {
+			if (consumerData.getAge() != null) {
 				consumerRegister.setZipcode(consumerData.getZipcode());
 			}
 			consumerRegister.setId(consumerData.getId());
@@ -108,11 +142,17 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 				consumerData.setZipcode(tkmyOrdUsersData.get(0).getZipcode());
 				consumerdataList.add(consumerData);
 			}
-		return consumerdataList;	
+		return consumerdataList;
 		} catch (Exception e) {
 			String errorMessage = "Exceptiopn Fetching the consumer data from TkmyordUser Table";
 			throw new Exception(errorMessage,e);
 		}
+	}
+
+	@Override
+	public List<String> getAllCustomerData() throws Exception {
+		List<String> allConsumerData = consumerDataRepository.getAllRegisterUser();
+		return allConsumerData;
 	}
 
 }

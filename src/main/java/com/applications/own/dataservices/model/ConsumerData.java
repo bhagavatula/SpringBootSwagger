@@ -5,12 +5,17 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
+import javax.annotation.sql.DataSourceDefinition;
 
 /**
  * ConsumerData
  */
 
+@Data
 public class ConsumerData {
+
 
 	@JsonProperty("id")
 	private Integer id = null;

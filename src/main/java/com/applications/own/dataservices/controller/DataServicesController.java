@@ -2,6 +2,8 @@ package com.applications.own.dataservices.controller;
 
 import java.util.List;
 
+import com.applications.own.dataservices.model.*;
+import com.applications.own.dataservices.service.SoupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.applications.own.dataservices.model.ConsumerData;
-import com.applications.own.dataservices.model.ConsumerDataResponse;
 import com.applications.own.dataservices.service.ConsumerService;
 
 
@@ -27,6 +27,9 @@ public class DataServicesController {
 	
 	@Autowired
 	private ConsumerService consumerService;
+
+	@Autowired
+	private SoupService soupService;
 	
 	@GetMapping("/health")
 	@ResponseStatus(HttpStatus.OK)	
@@ -40,6 +43,12 @@ public class DataServicesController {
 		return new ResponseEntity(consumerDataResponse.getUserId(), HttpStatus.OK);
 	
 	}
+
+	@PostMapping(value = "/consumerBulkdata", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<ConsumerDataResponse> registerConsumerBulkData(@RequestBody ConsumerBulkData consumerBulkdata) throws Exception{
+		ConsumerDataResponse consumerDataResponse = consumerService.SaveConsumerBulkDetails(consumerBulkdata);
+		return new ResponseEntity(consumerDataResponse.getUserId(), HttpStatus.OK);
+	}
 	
 	@PutMapping(value = "/updateconsumerdata", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<ConsumerDataResponse> updateConsumerData(@RequestBody ConsumerData consumerdata) throws Exception{		 
@@ -51,6 +60,24 @@ public class DataServicesController {
 	public ResponseEntity<List<ConsumerDataResponse>> getRegisterdConsumerData(@PathVariable("userId") Integer userId) throws Exception{		 
 		List<ConsumerData> consumerDataResponse = consumerService.getRegisterdConsumerData(userId);
 		return new ResponseEntity(consumerDataResponse, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/allconsumers/", produces = "application/json")
+	public ResponseEntity<List<ConsumerDataResponse>> getAllRegisterdConsumerData() throws Exception{
+		List<String> allconsumerResponse = consumerService.getAllCustomerData();
+		return new ResponseEntity(allconsumerResponse, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/soupdata", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<SoupMenudataResponse> registerSoupData(@RequestBody SoupmenuData soupData) throws Exception{
+		SoupMenudataResponse soupMenudataResponse = soupService.SaveSoupDetails(soupData);
+		return new ResponseEntity(soupMenudataResponse.getsoupId(), HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/soupBulkData", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<ConsumerDataResponse> registerSoupBulkData(@RequestBody SoupBulkmenuData soupbulkmenudata) throws Exception{
+		SoupMenudataResponse soupBulkMenudataResponse = soupService.SaveSoupBulkDetails(soupbulkmenudata);
+		return new ResponseEntity(soupBulkMenudataResponse.getsoupId(), HttpStatus.OK);
 	}
 	
 }

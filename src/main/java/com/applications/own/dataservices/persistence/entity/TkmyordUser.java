@@ -3,13 +3,7 @@ package com.applications.own.dataservices.persistence.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 
 /**
@@ -24,6 +18,9 @@ public class TkmyordUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "sequence-generator")
+	@SequenceGenerator(name = "sequence-generator",sequenceName = "tkmyord_user_dtls_sequence", allocationSize = 1)
+	@Column(name="id",nullable = false)
 	private Integer id;
 
 	private String age;
@@ -40,8 +37,10 @@ public class TkmyordUser implements Serializable {
 	@Column(name="last_name")
 	private String lastName;
 
+	@Column(name="sex")
 	private String sex;
 
+	@Column(name="zipcode")
 	private Integer zipcode;
 
 	public TkmyordUser() {
