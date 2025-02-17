@@ -2,11 +2,13 @@ package com.applications.own.dataservices.exception;
 
 import com.applications.own.dataservices.model.ErrorResponse;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@ControllerAdvice
 @JsonRootName("Errors")
 public class ErrorList implements Serializable {
 
@@ -23,7 +25,8 @@ public class ErrorList implements Serializable {
     public List<ErrorResponse> getErrors(){
         return errors;
     }
-    public void setErrors(List<ErrorResponse> errors) {
+
+    public void setErrors(ErrorList errorList) {
         this.errors = errors;
     }
     public void addError(ErrorResponse error){

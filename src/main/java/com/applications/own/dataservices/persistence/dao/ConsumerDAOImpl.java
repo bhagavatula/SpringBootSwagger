@@ -3,13 +3,19 @@ package com.applications.own.dataservices.persistence.dao;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.applications.own.dataservices.exception.EmailCheckException;
+import com.applications.own.dataservices.exception.ErrorList;
 import com.applications.own.dataservices.exception.TKORDSException;
 import com.applications.own.dataservices.model.ConsumerBulkData;
+import com.applications.own.dataservices.model.ErrorResponse;
+import com.sun.javaws.exceptions.ErrorCodeResponseException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +37,10 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 	@Override
 	@Transactional
 	public Integer SaveConsumerDetails(ConsumerData consumerData) throws Exception {
-		try {
+//		try {
+			List<TkmyordUser> userdata = consumerDataRepository.findAll();
+			ErrorResponse errorResponse = new ErrorResponse();
+			List<ErrorResponse> errorResponses = new ArrayList<>();
 			// Below is to read the data from reqeust input
 //			ConsumerData consumerData  = consumerDataInput.getConsumerData();
 			// Now Map the Entity
@@ -40,6 +49,14 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 //			Integer consumerID = consumerDataRepository.getConsumerId();
 			if((consumerData.getFirstname() == null) || ((consumerData.getFirstname().trim().equals("")))){
 				throw new TKORDSException  ("Error while saving the User Information: User Name not Available in consumerData");
+			}
+			if (userdata.stream().filter(userrecord -> userrecord.getEmail().contentEquals(consumerData.getEmail())).findFirst().isPresent()){
+//				throw new TKORDSException ("Error while saving ConsumerBulkData"+consumerData.getEmail()+" Alreday registered Email!");
+				errorResponse.setErrorCode(HttpStatus.CONFLICT.toString());
+				errorResponse.setErrorMessage("Error while saving ConsumerBulkData"+consumerData.getEmail()+" Alreday registered Email!");
+				new TKORDSException().setErrorList(new ErrorList(Arrays.asList(errorResponse)));
+//				throw new TKORDSException(new ErrorList(Arrays.asList(errorResponse)));
+				throw new TKORDSException();
 			}
 			consumerRegister.setAge(consumerData.getAge());
 			consumerRegister.setDateofbirth(new java.sql.Date(consumerData.getDateofbirth().getTime()));
@@ -52,11 +69,14 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 			// Save the consumer Data through repository
 //			consumerDataRepository.save(consumerRegister);
 			return consumerDataRepository.save(consumerRegister).getId();
-		} catch (Exception e) {
-			String errorMessage = "Exception while saving the consumer Data";
-			throw new Exception("Error while saving ConsumerData", e);
-		}
-
+//			return HttpStatus.ACCEPTED;
+//			egistration is fuccessful";
+//		} catch (Exception e) {
+//			String errorMessage = "Exception while saving the consumer Data";
+////			throw new Exception("Error while saving ConsumerData", e);
+////			throw new TKORDSException  ("Error while saving the User Information");
+//			throw new TKORDSException();
+//		}
 	}
 
 	@Override

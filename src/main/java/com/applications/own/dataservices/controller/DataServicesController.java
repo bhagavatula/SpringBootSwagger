@@ -2,6 +2,9 @@ package com.applications.own.dataservices.controller;
 
 import java.util.List;
 
+import com.applications.own.dataservices.exception.EmailCheckException;
+import com.applications.own.dataservices.exception.ErrorList;
+import com.applications.own.dataservices.exception.TKORDSException;
 import com.applications.own.dataservices.model.*;
 import com.applications.own.dataservices.service.SoupService;
 import org.slf4j.Logger;
@@ -30,6 +33,12 @@ public class DataServicesController {
 
 	@Autowired
 	private SoupService soupService;
+
+	@Autowired
+	TKORDSException tkordsException;
+
+	@Autowired
+	ErrorList errorList;
 	
 	@GetMapping("/health")
 	@ResponseStatus(HttpStatus.OK)	
@@ -38,10 +47,14 @@ public class DataServicesController {
 	}
 	
 	@PostMapping(value = "/consumerdata", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<ConsumerDataResponse> registerConsumerData(@RequestBody ConsumerData consumerdata) throws Exception{		 
-		ConsumerDataResponse consumerDataResponse = consumerService.SaveConsumerDetails(consumerdata);
-		return new ResponseEntity(consumerDataResponse.getUserId(), HttpStatus.OK);
-	
+	public ResponseEntity<ConsumerDataResponse> registerConsumerData(@RequestBody ConsumerData consumerdata) throws Exception{
+		try {
+			ConsumerDataResponse consumerDataResponse = consumerService.SaveConsumerDetails(consumerdata);
+			return new ResponseEntity(consumerDataResponse, HttpStatus.CREATED);
+		}catch (Exception e){
+//			System.out.println(tkordsException.getErrorList());
+			return new ResponseEntity(tkordsException.getErrorList() ,HttpStatus.CONFLICT);
+		}
 	}
 
 	@PostMapping(value = "/consumerBulkdata", consumes = "application/json", produces = "application/json")

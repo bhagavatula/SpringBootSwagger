@@ -43,6 +43,9 @@ public class TkmyordUser implements Serializable {
 	@Column(name="zipcode")
 	private Integer zipcode;
 
+	@Column(name="email")
+	private String email;
+
 	public TkmyordUser() {
 	}
 
@@ -101,6 +104,15 @@ public class TkmyordUser implements Serializable {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 
 	public Integer getZipcode() {
 		return this.zipcode;

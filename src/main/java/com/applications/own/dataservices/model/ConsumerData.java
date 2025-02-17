@@ -32,6 +32,9 @@ public class ConsumerData {
 	@JsonProperty("sex")
 	private String sex = null;
 
+	@JsonProperty("email")
+	private String email = null;
+
 	@JsonProperty("dateofbirth")
 	@JsonFormat(pattern = "MM-dd-yyyy")
 	private Date dateofbirth = null;
@@ -142,6 +145,26 @@ public class ConsumerData {
 		return this;
 	}
 
+
+	/**
+	 * Get email
+	 *
+	 * @return email
+	 **/
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public ConsumerData email(String email) {
+		this.email = email;
+		return this;
+	}
+
 	/**
 	 * Get dateofbirth
 	 * 
@@ -207,6 +230,7 @@ public class ConsumerData {
 				&& Objects.equals(this.firstname, consumerData.firstname)
 				&& Objects.equals(this.lastname, consumerData.lastname) && Objects.equals(this.age, consumerData.age)
 				&& Objects.equals(this.sex, consumerData.sex)
+				&& Objects.equals(this.email, consumerData.email)
 				&& Objects.equals(this.dateofbirth, consumerData.dateofbirth)
 				&& Objects.equals(this.address, consumerData.address)
 				&& Objects.equals(this.zipcode, consumerData.zipcode);
@@ -214,7 +238,7 @@ public class ConsumerData {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id,firstname, lastname, age, sex, dateofbirth, address, zipcode);
+		return Objects.hash(id,firstname, lastname, age, sex,email, dateofbirth, address, zipcode);
 	}
 
 	@Override
@@ -227,6 +251,7 @@ public class ConsumerData {
 		sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
 		sb.append("    age: ").append(toIndentedString(age)).append("\n");
 		sb.append("    sex: ").append(toIndentedString(sex)).append("\n");
+		sb.append("    email: ").append(toIndentedString(email)).append("\n");
 		sb.append("    dateofbirth: ").append(toIndentedString(dateofbirth)).append("\n");
 		sb.append("    address: ").append(toIndentedString(address)).append("\n");
 		sb.append("    zipcode: ").append(toIndentedString(zipcode)).append("\n");

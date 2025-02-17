@@ -2,6 +2,7 @@ package com.applications.own.dataservices.model;
 
 import java.util.Objects;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * ErrorResponse
  */
 
+@Component
 public class ErrorResponse   {
   @JsonProperty("errorCode")
   private String errorCode = null;
@@ -17,7 +19,7 @@ public class ErrorResponse   {
   @JsonProperty("errorMessage")
   private String errorMessage = null;
 
-  public ErrorResponse errorCode(String errorCode) {
+ public ErrorResponse errorCode(String errorCode) {
     this.errorCode = errorCode;
     return this;
   }

@@ -7,6 +7,8 @@ import org.springframework.validation.annotation.Validated;
 
 /**
  * ConsumerBulkData
+ *  ConsumerBulkData extending the ArrayList of ConsumerData which is
+ *  holding multiple user data at one time
  */
 
 public class ConsumerBulkData extends ArrayList<ConsumerData>  {
