@@ -3,6 +3,7 @@ package com.applications.own.dataservices.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.applications.own.dataservices.exception.TKORDSException;
 import com.applications.own.dataservices.model.ConsumerBulkData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,15 +22,15 @@ public class ConsumerServiceImpl implements ConsumerService {
 	@Autowired
 	private ConsumerDAO consumerDAO;
 
-	public ConsumerDataResponse SaveConsumerDetails(ConsumerData consumerdata) throws Exception {
-		try {
+	public ConsumerDataResponse SaveConsumerDetails(ConsumerData consumerdata) throws TKORDSException {
+		//try {
 			Integer taskId = consumerDAO.SaveConsumerDetails(consumerdata);
 			ConsumerDataResponse consumderResponse = new ConsumerDataResponse();
 			consumderResponse.setUserId(taskId);
 			return consumderResponse;
-		} catch (Exception e) {
-			throw new Exception("Error while saving consumer details in Service", e);
-		}
+		//} catch (TKORDSException e) {
+		//	throw new Exception("Error while saving consumer details in Service", e);
+		//}
 
 	}
 

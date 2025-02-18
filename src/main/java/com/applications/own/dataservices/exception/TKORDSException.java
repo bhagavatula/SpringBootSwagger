@@ -15,7 +15,8 @@ import java.util.List;
 public class TKORDSException extends Exception{
 
     @Autowired
-    ErrorList errorList;
+    private ErrorList errorList;
+    
     private static final long serialVersionUID = 1L;
 //    private ErrorList errorList  = new ErrorList();
 

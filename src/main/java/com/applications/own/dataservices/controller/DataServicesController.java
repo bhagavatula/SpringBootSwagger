@@ -51,12 +51,9 @@ public class DataServicesController {
 		try {
 			ConsumerDataResponse consumerDataResponse = consumerService.SaveConsumerDetails(consumerdata);
 			return new ResponseEntity(consumerDataResponse, HttpStatus.CREATED);
-		}catch (Exception e){
+		}catch (TKORDSException e){
 //			System.out.println(tkordsException.getErrorList());
-			ErrorResponse errorResponse = new ErrorResponse();
-			errorResponse.
-			errorList.addError();
-			return new ResponseEntity(errorList.errors ,HttpStatus.CONFLICT);
+			return new ResponseEntity(e.getErrorList() ,HttpStatus.CONFLICT);
 		}
 	}
 

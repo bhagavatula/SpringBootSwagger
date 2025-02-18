@@ -12,7 +12,7 @@ import com.applications.own.dataservices.exception.ErrorList;
 import com.applications.own.dataservices.exception.TKORDSException;
 import com.applications.own.dataservices.model.ConsumerBulkData;
 import com.applications.own.dataservices.model.ErrorResponse;
-import com.sun.javaws.exceptions.ErrorCodeResponseException;
+//import com.sun.javaws.exceptions.ErrorCodeResponseException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,10 +33,13 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 //	
 	@Autowired
 	ConsumerDataRepository consumerDataRepository;
+	
+	@Autowired
+    private ErrorList errorList;
 
 	@Override
 	@Transactional
-	public Integer SaveConsumerDetails(ConsumerData consumerData) throws Exception {
+	public Integer SaveConsumerDetails(ConsumerData consumerData) throws TKORDSException {
 //		try {
 			List<TkmyordUser> userdata = consumerDataRepository.findAll();
 			ErrorResponse errorResponse = new ErrorResponse();
@@ -52,9 +55,15 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 			}
 			if (userdata.stream().filter(userrecord -> userrecord.getEmail().contentEquals(consumerData.getEmail())).findFirst().isPresent()){
 //				throw new TKORDSException ("Error while saving ConsumerBulkData"+consumerData.getEmail()+" Alreday registered Email!");
+				;
 				errorResponse.setErrorCode(HttpStatus.CONFLICT.toString());
 				errorResponse.setErrorMessage("Error while saving "+consumerData.getEmail()+" Already registered Email!");
-//				new ErrorList(Arrays.asList(errorResponse));
+				errorList.addError(errorResponse);
+				TKORDSException tkordSException = new TKORDSException();
+				tkordSException.setErrorList(errorList);
+				throw tkordSException;
+				
+				//				new ErrorList(Arrays.asList(errorResponse));
 //				throw new TKORDSException().setErrorList(new ErrorList(Arrays.asList(errorResponse)));
 //				throw new Exception();
 			}
@@ -89,7 +98,7 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 		for (int itr= 0; itr<consumerBulkData.size(); itr++){
 //			Integer consumerID = consumerDataRepository.getConsumerId();
 //			consumerIDs+=consumerID;
-			log.info(itr);
+			//log.info(itr);
 			consumerRegister.setAge(consumerBulkData.get(itr).getAge());
 			consumerRegister.setDateofbirth(new java.sql.Date(consumerBulkData.get(itr).getDateofbirth().getTime()));
 			consumerRegister.setDeliveryAddress(consumerBulkData.get(itr).getAddress());
