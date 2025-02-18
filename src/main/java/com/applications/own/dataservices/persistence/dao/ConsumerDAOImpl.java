@@ -34,8 +34,8 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 	@Autowired
 	ConsumerDataRepository consumerDataRepository;
 	
-	@Autowired
-    private ErrorList errorList;
+//	@Autowired
+//    private ErrorList errorList;
 
 	@Override
 	@Transactional
@@ -58,14 +58,12 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 				;
 				errorResponse.setErrorCode(HttpStatus.CONFLICT.toString());
 				errorResponse.setErrorMessage("Error while saving "+consumerData.getEmail()+" Already registered Email!");
-				errorList.addError(errorResponse);
+				List<ErrorResponse> errorResponseList = new ArrayList<ErrorResponse>();
+				errorResponseList.add(errorResponse);
+				ErrorList errorList = new ErrorList(errorResponseList);
 				TKORDSException tkordSException = new TKORDSException();
 				tkordSException.setErrorList(errorList);
 				throw tkordSException;
-				
-				//				new ErrorList(Arrays.asList(errorResponse));
-//				throw new TKORDSException().setErrorList(new ErrorList(Arrays.asList(errorResponse)));
-//				throw new Exception();
 			}
 			consumerRegister.setAge(consumerData.getAge());
 			consumerRegister.setDateofbirth(new java.sql.Date(consumerData.getDateofbirth().getTime()));
