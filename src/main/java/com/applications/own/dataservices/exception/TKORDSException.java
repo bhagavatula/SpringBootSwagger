@@ -17,17 +17,17 @@ public class TKORDSException extends Exception{
     @Autowired
     ErrorList errorList;
     private static final long serialVersionUID = 1L;
-//    private ErrorList errorList;
-//            = new ErrorList();
+//    private ErrorList errorList  = new ErrorList();
+
     public TKORDSException(){
         super();
     }
     public TKORDSException(String message){
         super(message);
     }
-    public TKORDSException(ErrorList errorList){
-        super(String.valueOf(errorList));
-    }
+//    public TKORDSException(ErrorList errorList){
+//        super(String.valueOf(errorList));
+//    }
     public TKORDSException(String message, Throwable e){
         super(message, e);
     }
@@ -36,8 +36,8 @@ public class TKORDSException extends Exception{
         super(e);
     }
 
-    public List<String> getErrorList()throws TKORDSException {
-        return (List<String>) this.errorList;
+    public ErrorList getErrorList()throws TKORDSException {
+        return this.errorList;
     }
 
     public void setErrorList(ErrorList errorList) throws TKORDSException {

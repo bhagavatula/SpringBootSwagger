@@ -39,7 +39,7 @@ public class DataServicesController {
 
 	@Autowired
 	ErrorList errorList;
-	
+
 	@GetMapping("/health")
 	@ResponseStatus(HttpStatus.OK)	
 	public ResponseEntity<String> health(){
@@ -53,7 +53,10 @@ public class DataServicesController {
 			return new ResponseEntity(consumerDataResponse, HttpStatus.CREATED);
 		}catch (Exception e){
 //			System.out.println(tkordsException.getErrorList());
-			return new ResponseEntity(tkordsException.getErrorList() ,HttpStatus.CONFLICT);
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.
+			errorList.addError();
+			return new ResponseEntity(errorList.errors ,HttpStatus.CONFLICT);
 		}
 	}
 

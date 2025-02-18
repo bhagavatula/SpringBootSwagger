@@ -2,6 +2,7 @@ package com.applications.own.dataservices.exception;
 
 import com.applications.own.dataservices.model.ErrorResponse;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.io.Serializable;
@@ -10,11 +11,13 @@ import java.util.List;
 
 @ControllerAdvice
 @JsonRootName("Errors")
+@Component
 public class ErrorList implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String headerErrorMsg;
-    private List<ErrorResponse> errors = new ArrayList<>();
+    public List<ErrorResponse> errors;
+//            = new ArrayList<ErrorResponse>();
     public ErrorList(){
         super();
     }

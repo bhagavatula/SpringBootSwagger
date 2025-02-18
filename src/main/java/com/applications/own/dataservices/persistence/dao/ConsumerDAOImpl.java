@@ -53,10 +53,10 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 			if (userdata.stream().filter(userrecord -> userrecord.getEmail().contentEquals(consumerData.getEmail())).findFirst().isPresent()){
 //				throw new TKORDSException ("Error while saving ConsumerBulkData"+consumerData.getEmail()+" Alreday registered Email!");
 				errorResponse.setErrorCode(HttpStatus.CONFLICT.toString());
-				errorResponse.setErrorMessage("Error while saving ConsumerBulkData"+consumerData.getEmail()+" Alreday registered Email!");
-				new TKORDSException().setErrorList(new ErrorList(Arrays.asList(errorResponse)));
-//				throw new TKORDSException(new ErrorList(Arrays.asList(errorResponse)));
-				throw new TKORDSException();
+				errorResponse.setErrorMessage("Error while saving "+consumerData.getEmail()+" Already registered Email!");
+//				new ErrorList(Arrays.asList(errorResponse));
+//				throw new TKORDSException().setErrorList(new ErrorList(Arrays.asList(errorResponse)));
+//				throw new Exception();
 			}
 			consumerRegister.setAge(consumerData.getAge());
 			consumerRegister.setDateofbirth(new java.sql.Date(consumerData.getDateofbirth().getTime()));
