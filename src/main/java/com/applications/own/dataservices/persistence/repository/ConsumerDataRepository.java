@@ -18,8 +18,7 @@ public interface ConsumerDataRepository extends JpaRepository<TkmyordUser, Integ
 	List<TkmyordUser> getRegisterUser(@Param("id") Integer id);
 
 	@Query(value = DataServiceConstants.GET_ALL_REGISTER_USERS)
-	List<String>
-	getAllRegisterUser();
+	List<TkmyordUser> getAllRegisterUser();
 	
 	@Query(value = DataServiceConstants.GET_CONSUMER_ID, nativeQuery = true)
 	Integer getConsumerId();

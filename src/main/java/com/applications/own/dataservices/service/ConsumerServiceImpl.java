@@ -1,6 +1,5 @@
 package com.applications.own.dataservices.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.applications.own.dataservices.exception.TKORDSException;
@@ -12,9 +11,6 @@ import com.applications.own.dataservices.model.ConsumerData;
 import com.applications.own.dataservices.model.ConsumerDataResponse;
 import com.applications.own.dataservices.persistence.dao.ConsumerDAO;
 import com.applications.own.dataservices.persistence.entity.TkmyordUser;
-import com.applications.own.dataservices.persistence.repository.ConsumerDataRepository;
-
-import ch.qos.logback.classic.Logger;
 
 @Service
 public class ConsumerServiceImpl implements ConsumerService {
@@ -68,8 +64,8 @@ public class ConsumerServiceImpl implements ConsumerService {
 	}
 
 	@Override
-	public List<String> getAllCustomerData() throws Exception {
-		List<String> tkmyOrdAllUsers = consumerDAO.getAllCustomerData();
+	public List<TkmyordUser> getAllCustomerData() throws Exception {
+		List<TkmyordUser> tkmyOrdAllUsers = consumerDAO.getAllCustomerData();
 		return tkmyOrdAllUsers;
 	}
 

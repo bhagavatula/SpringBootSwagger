@@ -2,10 +2,10 @@ package com.applications.own.dataservices.controller;
 
 import java.util.List;
 
-import com.applications.own.dataservices.exception.EmailCheckException;
 import com.applications.own.dataservices.exception.ErrorList;
 import com.applications.own.dataservices.exception.TKORDSException;
 import com.applications.own.dataservices.model.*;
+import com.applications.own.dataservices.persistence.entity.TkmyordUser;
 import com.applications.own.dataservices.service.SoupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,8 +76,8 @@ public class DataServicesController {
 	}
 
 	@GetMapping(value = "/allconsumers/", produces = "application/json")
-	public ResponseEntity<List<ConsumerDataResponse>> getAllRegisterdConsumerData() throws Exception{
-		List<String> allconsumerResponse = consumerService.getAllCustomerData();
+	public ResponseEntity<List<TkmyordUser>> getAllRegisterdConsumerData() throws Exception{
+		List<TkmyordUser> allconsumerResponse = consumerService.getAllCustomerData();
 		return new ResponseEntity(allconsumerResponse, HttpStatus.OK);
 	}
 

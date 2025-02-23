@@ -1,13 +1,8 @@
 package com.applications.own.dataservices.persistence.dao;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import com.applications.own.dataservices.exception.EmailCheckException;
 import com.applications.own.dataservices.exception.ErrorList;
 import com.applications.own.dataservices.exception.TKORDSException;
 import com.applications.own.dataservices.model.ConsumerBulkData;
@@ -20,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.applications.own.dataservices.model.ConsumerData;
-import com.applications.own.dataservices.model.ConsumerDataResponse;
 import com.applications.own.dataservices.persistence.entity.TkmyordUser;
 import com.applications.own.dataservices.persistence.repository.ConsumerDataRepository;
 
@@ -177,8 +171,8 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 	}
 
 	@Override
-	public List<String> getAllCustomerData() throws Exception {
-		List<String> allConsumerData = consumerDataRepository.getAllRegisterUser();
+	public List<TkmyordUser> getAllCustomerData() throws Exception {
+		List<TkmyordUser> allConsumerData = consumerDataRepository.getAllRegisterUser();
 		return allConsumerData;
 	}
 
